@@ -95,15 +95,34 @@ func (e *Entry) Created() string {
 	return e.meta["created"][0]
 }
 
+func (e *Entry) Start() string {
+	started := time.Now().Format(viper.GetString("date_format"))
+	e.SetMeta("started", started)
+	return started
+}
+
 func (e *Entry) Complete() string {
 	completed := time.Now().Format(viper.GetString("date_format"))
-	e.meta["completed"] = []string{completed}
+	e.SetMeta("completed", completed)
 	return completed
 }
 
+func (e *Entry) SetMeta(key, value string) string {
+	e.meta[key] = []string{value}
+	return value
+}
+
 func (e *Entry) IsCompleted() bool {
-	_, completed := e.meta["completed"]
-	return completed
+	return e.HasMeta("completed")
+}
+
+func (e *Entry) HasStarted() bool {
+	return e.HasMeta("started")
+}
+
+func (e *Entry) HasMeta(key string) bool {
+	_, has := e.meta[key]
+	return has
 }
 
 func (e *Entry) Parsed() {
@@ -117,6 +136,11 @@ func (e *Entry) Priority() int {
 	/* Are you completed? If so ... fake a high priority(bottom of list) */
 	if e.IsCompleted() {
 		return 10000
+	}
+
+	/* Clearly you're not done, but have you started? Shoot to the top! */
+	if e.HasStarted() {
+		return 0
 	}
 
 	if _, exists := e.meta["priority"]; exists {

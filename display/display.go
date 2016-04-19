@@ -64,6 +64,13 @@ func Complete(id int, e *entry.Entry) {
 	entries.Save()
 }
 
+func Start(id int, e *entry.Entry) {
+	fmt.Println(e.Description())
+	fmt.Println("---")
+	fmt.Println(fmt.Sprintf("Task #%d started.", id))
+	entries.Save()
+}
+
 func Error(msg string) {
 	fmt.Println(msg)
 }

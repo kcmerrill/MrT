@@ -116,15 +116,31 @@ func Get(index int) (*entry.Entry, error) {
 	return nil, errors.New("Unable to find task.")
 }
 
+func Start(task_id int) (*entry.Entry, error) {
+	return meta(task_id, "start")
+}
+
 func Complete(task_id int) (*entry.Entry, error) {
+	return meta(task_id, "complete")
+}
+
+func meta(task_id int, function string) (*entry.Entry, error) {
 	List(-1)
 	if len(results) > task_id {
-		results[task_id].Complete()
+		switch strings.ToLower(function) {
+		case "start":
+			results[task_id].Start()
+			break
+		case "complete":
+			results[task_id].Complete()
+			break
+		default:
+			return nil, errors.New("Unable to " + function + ".")
+		}
 		return results[task_id], nil
 	} else {
 		return &entry.Entry{}, errors.New("Unable to find task.")
 	}
-
 	return &entry.Entry{}, nil
 }
 
