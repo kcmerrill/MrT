@@ -60,12 +60,16 @@ func LS() {
 func Complete(id int, e *entry.Entry) {
 	fmt.Println(e.Description())
 	fmt.Println("---")
-	fmt.Println(fmt.Sprintf("Task #%d Completed.", id))
+	fmt.Println(fmt.Sprintf("Task #%d completed.", id))
 	entries.Save()
 }
 
 func Error(msg string) {
 	fmt.Println(msg)
+}
+
+func Undo() {
+	fmt.Println("Undo succesful.")
 }
 
 func init() {

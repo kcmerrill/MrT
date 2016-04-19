@@ -73,6 +73,17 @@ func Added() []*entry.Entry {
 	return added
 }
 
+func Undo() error {
+	/* Make sure our backup file exists first */
+	if _, err := os.Stat(viper.GetString("tasks_backup")); os.IsNotExist(err) {
+		return errors.New("Unable to restore from backup.")
+	}
+	if err := os.Rename(viper.GetString("tasks_backup"), viper.GetString("tasks")); err != nil {
+		return errors.New("Unable to restore from backup")
+	}
+	return nil
+}
+
 func Save() error {
 	/* Lets first create the backup */
 	if err := os.Rename(viper.GetString("tasks"), viper.GetString("tasks_backup")); err != nil {
