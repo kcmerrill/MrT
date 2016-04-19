@@ -8,9 +8,9 @@ import (
 
 // lsCmd represents the ls command
 var lsCmd = &cobra.Command{
-	Use:   "ls",
-	Short: "Display a list of tasks",
-	Long:  ``,
+	Use:     "ls",
+	Short:   "Display a list of tasks",
+	Aliases: []string{"list", "show"},
 	Run: func(cmd *cobra.Command, args []string) {
 		entries.Update()
 		entries.List(10)

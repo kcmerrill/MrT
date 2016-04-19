@@ -10,8 +10,9 @@ import (
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Add a task/note",
+	Use:     "add",
+	Short:   "Add a task/note",
+	Aliases: []string{"new"},
 	Run: func(cmd *cobra.Command, args []string) {
 		editor.Run(viper.GetString("editor"), viper.GetString("editor_args"), viper.GetString("tasks"))
 		entries.Update()

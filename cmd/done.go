@@ -9,9 +9,9 @@ import (
 
 // doneCmd represents the done command
 var doneCmd = &cobra.Command{
-	Use:   "done",
-	Short: "Complete a task",
-	Long:  ``,
+	Use:     "done",
+	Short:   "Complete a task",
+	Aliases: []string{"complete", "finish"},
 	Run: func(cmd *cobra.Command, args []string) {
 		entries.Update()
 		task_id := 0
