@@ -31,6 +31,9 @@ func Parse(raw string) *Entry {
 
 func (e *Entry) parse() {
 	for _, token := range strings.Split(e.raw, " ") {
+		if token == "" {
+			continue
+		}
 		switch {
 		case string(token[0]) == "#":
 			e.meta["lists"] = append(e.meta["lists"], token[1:])
@@ -175,13 +178,11 @@ func (e *Entry) IsNew() bool {
 	return e.is_new
 }
 func (e *Entry) ToString() string {
-	entry := e.Description()
-
+	entry := e.Description() + " "
 	for key, values := range e.meta {
 		for _, value := range values {
 			entry += key + ":" + value + " "
 		}
 	}
-
 	return entry
 }
