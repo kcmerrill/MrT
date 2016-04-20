@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/kcmerrill/MrT/display"
 	"github.com/kcmerrill/MrT/entries"
+	"github.com/kcmerrill/MrT/entry"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
@@ -15,10 +16,11 @@ var cfgFile string
 var RootCmd = &cobra.Command{
 	Use:   "MrT",
 	Short: "A command line task manager",
-	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		entries.Update()
-		entries.List(1)
+		entries.List(1, func(e *entry.Entry) bool {
+			return !e.IsCompleted()
+		})
 		display.Current()
 	},
 }

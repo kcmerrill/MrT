@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/kcmerrill/MrT/display"
 	"github.com/kcmerrill/MrT/entries"
+	"github.com/kcmerrill/MrT/entry"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +14,9 @@ var lsCmd = &cobra.Command{
 	Aliases: []string{"list", "show"},
 	Run: func(cmd *cobra.Command, args []string) {
 		entries.Update()
-		entries.List(10)
+		entries.List(10, func(e *entry.Entry) bool {
+			return !e.IsCompleted()
+		})
 		display.LS()
 	},
 }

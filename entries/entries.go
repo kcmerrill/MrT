@@ -35,10 +35,10 @@ func Update() {
 	f.Close()
 }
 
-func List(show int) {
+func List(show int, filter func(e *entry.Entry) bool) {
 	for _, entry_score := range Sorted() {
 		for _, entry := range entries[entry_score] {
-			if entry.IsCompleted() {
+			if filter != nil && !filter(entry) {
 				continue
 			}
 			results = append(results, entry)
@@ -125,7 +125,7 @@ func Complete(task_id int) (*entry.Entry, error) {
 }
 
 func meta(task_id int, function string) (*entry.Entry, error) {
-	List(-1)
+	List(-1, nil)
 	if len(results) > task_id {
 		switch strings.ToLower(function) {
 		case "start":

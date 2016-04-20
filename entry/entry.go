@@ -1,6 +1,7 @@
 package entry
 
 import (
+	"errors"
 	"github.com/spf13/viper"
 	"strconv"
 	"strings"
@@ -108,6 +109,26 @@ func (e *Entry) Complete() string {
 	completed := time.Now().Format(viper.GetString("date_format"))
 	e.SetMeta("completed", completed)
 	return completed
+}
+
+func (e *Entry) Completed() (time.Time, error) {
+	if e.IsCompleted() {
+		if parsed, err := time.Parse(viper.GetString("date_format"), e.GetMeta("completed")); err == nil {
+			return parsed, nil
+		} else {
+			return time.Now(), errors.New("Task complete time unparseable")
+		}
+	} else {
+		return time.Now(), errors.New("Task is not completed.")
+	}
+}
+
+func (e *Entry) GetMeta(key string) string {
+	if e.HasMeta(key) {
+		return e.meta[key][0]
+	} else {
+		return ""
+	}
 }
 
 func (e *Entry) SetMeta(key, value string) string {
