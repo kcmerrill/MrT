@@ -154,7 +154,7 @@ func meta(task_id int, function string) (*entry.Entry, error) {
 		}
 		return results[task_id], nil
 	} else {
-		return &entry.Entry{}, errors.New("Unable to find task.")
+		return &entry.Entry{}, errors.New("Unable to find task #")
 	}
 	return &entry.Entry{}, nil
 }
