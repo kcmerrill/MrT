@@ -11,6 +11,14 @@ The easiest way to install MrT is to clone this repository, compile the project 
 3. Create a quick alias
   3. `alias t="/path/to/MrT"`
 
+##How-To
+Take a peek at --help but this quick and dirty screencast should get you on your way. 
+
+![alt text]( "Screencast")
+
+[![Screencast](https://raw.githubusercontent.com/kcmerrill/MrT/master/screenshot.png)] (https://youtu.be/VQYyOaqzNBs
+)
+
 ##Why not use one already created?
 - There are some features I _really_ wanted that were not available in other tools(at least that I was aware of)
 - I needed/wanted a fun project to work on that I can also learn go with
