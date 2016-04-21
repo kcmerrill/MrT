@@ -3,6 +3,7 @@ package entries
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"github.com/kcmerrill/MrT/entry"
 	"github.com/spf13/viper"
 	"os"
@@ -15,6 +16,14 @@ var entries map[int][]*entry.Entry
 var sorted_priorities []int
 var added []*entry.Entry
 var results []*entry.Entry
+
+func New(task string) {
+	e := entry.Parse(task)
+	entries[e.Score()] = append(entries[e.Score()], e)
+	if e.IsNew() {
+		added = append(added, e)
+	}
+}
 
 func Update() {
 	Create()
@@ -85,6 +94,7 @@ func Undo() error {
 }
 
 func Save() error {
+	fmt.Println("save() called")
 	/* Lets first create the backup */
 	if err := os.Rename(viper.GetString("tasks"), viper.GetString("tasks_backup")); err != nil {
 		return errors.New("Unable to create backup of your tasks.")
