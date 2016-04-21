@@ -14,8 +14,6 @@ The easiest way to install MrT is to clone this repository, compile the project 
 ##How-To
 Take a peek at --help but this quick and dirty screencast should get you on your way. 
 
-![alt text]( "Screencast")
-
 [![Screencast](https://raw.githubusercontent.com/kcmerrill/MrT/master/screenshot.png)] (https://youtu.be/VQYyOaqzNBs
 )
 
