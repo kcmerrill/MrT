@@ -8,6 +8,10 @@ import (
 	"os"
 )
 
+func Init() {
+	fmt.Println("Tasks initialized.")
+}
+
 func Added() {
 	added := entries.Added()
 	for _, e := range added {

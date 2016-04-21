@@ -102,11 +102,26 @@ func Save() error {
 	return nil
 }
 
-func Create() {
+func Init() {
+	/* Create a tasks file in the current directory */
+	viper.SetDefault("tasks", "./tasks")
+	viper.SetDefault("tasks_backup", "./.tasks.bkup")
+	Create()
+}
+
+func Create() error {
 	if _, err := os.Stat(viper.GetString("tasks")); os.IsNotExist(err) {
 		/* Just need to make sure the directory exists */
 		os.MkdirAll(filepath.Dir(viper.GetString("tasks")), 0644)
+		/* Create the file ... even if it is empty(for init specifically */
+		if tasks, err := os.Create(viper.GetString("tasks")); err == nil {
+			tasks.Close()
+		} else {
+			return errors.New("Unable to create task file: " + viper.GetString("tasks"))
+		}
 	}
+
+	return nil
 }
 
 func Get(index int) (*entry.Entry, error) {
