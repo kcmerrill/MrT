@@ -94,7 +94,6 @@ func Undo() error {
 }
 
 func Save() error {
-	fmt.Println("save() called")
 	/* Lets first create the backup */
 	if err := os.Rename(viper.GetString("tasks"), viper.GetString("tasks_backup")); err != nil {
 		return errors.New("Unable to create backup of your tasks.")
