@@ -31,25 +31,32 @@ func Parse(raw string) *Entry {
 }
 
 func (e *Entry) parse() {
-	for _, token := range strings.Split(e.raw, " ") {
-		if token == "" {
-			continue
-		}
-		switch {
-		case string(token[0]) == "#":
-			e.meta["lists"] = append(e.meta["lists"], token[1:])
-			break
-		case strings.Contains(token, ":"):
-			meta := strings.SplitN(token, ":", 2)
-			e.meta[meta[0]] = append(e.meta[meta[0]], meta[1])
-			break
-		default:
-			e.description = append(e.description, token)
-		}
+	for position, token := range strings.Split(e.raw, " ") {
+		e.token(position, token)
 	}
 	e.Created()
 	e.score = e.CalculateScore()
 	e.Parsed()
+}
+
+func (e *Entry) token(position int, token string) {
+	if token == "" {
+		return
+	}
+	switch {
+	case string(token) == "!":
+		e.meta["priority"] = []string{"1"}
+		break
+	case string(token[0]) == "#":
+		e.meta["list"] = append(e.meta["list"], token[1:])
+		break
+	case strings.Contains(token, ":"):
+		meta := strings.SplitN(token, ":", 2)
+		e.meta[meta[0]] = append(e.meta[meta[0]], meta[1])
+		break
+	default:
+		e.description = append(e.description, token)
+	}
 }
 
 func (e *Entry) CalculateScore() int {
