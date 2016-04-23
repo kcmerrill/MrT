@@ -138,6 +138,14 @@ func (e *Entry) GetMeta(key string) string {
 	}
 }
 
+func (e *Entry) DisplayMeta(key string, _default string) string {
+	if e.HasMeta(key) {
+		return strings.Join(e.meta[key], ", ")
+	} else {
+		return _default
+	}
+}
+
 func (e *Entry) SetMeta(key, value string) string {
 	e.meta[key] = []string{value}
 	return value

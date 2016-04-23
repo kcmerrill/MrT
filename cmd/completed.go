@@ -29,7 +29,7 @@ var completedCmd = &cobra.Command{
 			}
 			return false
 		})
-		display.LS()
+		display.LS(nil)
 	},
 }
 

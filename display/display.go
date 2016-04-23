@@ -6,6 +6,7 @@ import (
 	"github.com/kcmerrill/MrT/entry"
 	"github.com/olekukonko/tablewriter"
 	"os"
+	"strings"
 )
 
 func Init() {
@@ -44,18 +45,39 @@ func Current() {
 	entries.Save()
 }
 
-func LS() {
+func LS(fields []string) {
 	ls := entries.All()
 	if len(ls) == 0 {
 		fmt.Println("No tasks.")
 		return
 	}
+	default_fields := []string{"ID", "Description"}
+	if fields == nil {
+		fields = default_fields
+	}
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Description"})
+	header := make([]string, 0, len(fields))
+	for _, h := range fields {
+		header = append(header, h)
+	}
+	table.SetHeader(header)
 	table.SetBorder(false)
 	table.SetColWidth(200)
 	for id, e := range ls {
-		table.Append([]string{fmt.Sprintf("%d", id), e.Description()})
+		row := make([]string, 0, len(fields))
+		for _, m := range fields {
+			switch strings.ToLower(m) {
+			case "id":
+				row = append(row, fmt.Sprintf("%d", id))
+				break
+			case "description":
+				row = append(row, e.Description())
+				break
+			default:
+				row = append(row, e.DisplayMeta(strings.ToLower(m), ""))
+			}
+		}
+		table.Append(row)
 	}
 	table.Render()
 	entries.Save()
