@@ -8,8 +8,7 @@ import (
 
 var undoCmd = &cobra.Command{
 	Use:     "undo",
-	Short:   "A brief description of your command",
-	Long:    `Undo the last action you performed`,
+	Short:   "Undo the last action you performed",
 	Aliases: []string{"revert", "whoops"},
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := entries.Undo(); err == nil {

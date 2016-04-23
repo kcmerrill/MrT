@@ -9,7 +9,7 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "A brief description of your command",
+	Short: "Create a new tasks list in the current folder you are in",
 	Run: func(cmd *cobra.Command, args []string) {
 		entries.Init()
 		display.Init()
